@@ -1,27 +1,14 @@
 <script>
-			Highcharts.setOptions({
-				lang: {
-					thousandsSep: ','
-				}
-			});
-
-			var chart = Highcharts.chart('container2c', {
+			var chart = Highcharts.chart('container', {
 				chart: {
-					plotBackgroundColor: 'transparent',
+					plotBackgroundColor: null,
 					plotBorderWidth: null,
 					plotShadow: false,
-					type: 'bar',
-					  height: 240,
-    marginBottom: 120,
-    marginLeft: 100,
-    marginRight: 20, 
-					backgroundColor: 'transparent',
+					type: 'pie',
 					style: {
-						fontFamily: '"acumin-pro-condensed","Roboto","Arial Narrow","Arial",sans-serif',
-						color: '#444444',
-						width: '100%',
-
-					}
+						width: '100%'
+					},
+					backgroundColor: 'transparent',
 				},
 				credits: {
 					enabled: false
@@ -29,95 +16,92 @@
 				title: {
 					text: ''
 				},
-				xAxis: {
-					categories: ["Number of<br>Countries"],
-					labels: {
-						style: {
-							fontSize: '16px',
-							lineHeight: '20px',
-							color: '#444444',
-						},
-					},
-					lineColor: '',
-					tickLength: 0,
-
-				},
-				yAxis: {
-					max: 50,
-					tickInterval: 10,
-					title: {
-						text: ''
-					},
-					labels: {
-						style: {
-							fontSize: '16px',
-							lineHeight: '20px',
-							color: '#444444',
-						},
-						format: '{value:,.0f}',
-					},
-					gridLineColor: '#e7e7e7',
-					gridLineWidth: 1,
-					gridLineDashStyle: 'longdash',
-					endOnTick: true,
-				},
-				legend: {
-					align: 'center',
-					verticalAlign: 'bottom',
-					layout: 'vertical',
-					floating: true,
-                    useHTML: true,
-					itemStyle: {
-						fontSize: '18px',
-						fontFamily: '"acumin-pro-condensed","Roboto","Arial Narrow","Arial",sans-serif',
-						color: '#444444',
-						paddingBottom: 5,
-						fontWeight: 'normal',
-
-					},
-					symbolHeight: 12,
-					symbolWidth: 12,
-					symbolRadius: 0
-				},
-				plotOptions: {
-					series: {
-						dataLabels: {
-							enabled: true,
-							formatter: function() {
-								return Highcharts.numberFormat(this.y, 0, '.', ',')
-							},
-							borderWidth: 0,
-							style: {
-								fontSize: '16px',
-								fontWeight: 'normal',
-								textOutline: 0,
-								color: '#ffffff',
-							},
-							padding: 2,
-							crop: false,
-							overflow: 'none',
-						},
-						groupPadding: .05,
-						pointPadding: .05
-					}
-				},
 				tooltip: {
 					enabled: false
 
 				},
-				series: [{
-						"data": [{ "y": 45, "dataLabels": { "x": -10, "align": "right" } }],
-						"borderWidth": 0,
-						"color": "#5f6369",
-						"name": 'MSCI ACWI ex USA SC<sup>1</sup>: International small cap'
-					},
+				plotOptions: {
+					pie: {
+						allowPointSelect: true,
+						showInLegend: true,
+						cursor: 'pointer',
+						colors: ["#222222", "#003e6b", "#5f6369", "#a4a7a9", "#6984a6", "#b2b3b4"],
+						dataLabels: {
+							distance: -25,
+							softConnector: false,
+							connectorWidth: 1,
+							connectorColor: '#444444',
+							verticalAlign: 'top',
+							enabled: true,
+							formatter: function() {
+								if (this.percentage != 0) {
+									return Math.round(this.percentage) + '<sup>%</sup>';
+								}
+							},
+							style: {
+								fontSize: '15',
+								fontFamily: '"acumin-pro-condensed","Roboto","Arial Narrow","Arial",sans-serif',
+								color: '#ffffff',
+								textOutline: 0,
+							}
+						},
 
-					{
-						"data": [{ "y": 1, "dataLabels": { "x": 10, "align": "left", "color": "#444444" } }],
-						"borderWidth": 0,
-						"color": "#003e6b",
-						"name": 'Russell 2000®: Domestic small cap'
-					}
-				]
+					},
+					series: {
+						animation: true,
+						point: {
+							events: {
+								legendItemClick: function() {
+									return false; // <== returning false will cancel the default action
+								}
+							}
+						}
+					},
+					// dataLabels: {
+					// 	connectorColor: '#444444';
+					// }
+				},
+				legend: {
+					width: '100%',
+					itemWidth: 200,
+					padding: 0,
+					marginTop: 15,
+					itemStyle: {
+						fontSize: '15',
+						fontFamily: '"acumin-pro-condensed","Roboto","Arial Narrow","Arial",sans-serif',
+						color: '#444444',
+						paddingBottom: 10,
+						margin: 0,
+						fontWeight: 'normal',
+					},
+				},
+
+				series: [{
+					name: 'Percent World Equity Market Cap',
+					colorByPoint: true,
+					size: '100%',
+					innerSize: '50%',
+					data: [
+						// ['International Large Cap', 51],
+						// ['International Small Cap', 7],
+						// ['U.S. Large Cap', 37],
+						// ['U.S. Small Cap', 5]
+						['Domestic Large Cap', 49],
+						['International Large Cap', 28],
+						['EM Large Cap', 11],
+						['International Small Cap', 5],
+						['Domestic Small Cap', 6],
+						// ['EM Small Cap', 1]
+						{
+							'name': 'EM Small Cap',
+							'y': 1,
+							'dataLabels': {
+								'distance': 25,
+								'color': '#444444',
+								connectorColor: '#222222'
+							}
+						}
+					],
+				}]
 			});
 			</script>
